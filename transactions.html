@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>รายการ | Expense Pro</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbarInner">
+      <div class="brand"><div class="logo"></div> Expense Pro</div>
+      <nav class="nav">
+        <a href="./dashboard.html" data-nav="dashboard"></a>
+        <a href="./transactions.html" data-nav="transactions"></a>
+        <a href="./debts.html" data-nav="debts"></a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="pageTitle">
+      <div>
+        <h1>รายการ</h1>
+        <div class="sub">เพิ่ม “ครั้งเดียว / ประจำ / ผ่อน” — ฟอร์มไม่งง แสดง “จ่ายเดือนนี้” ตามที่เลือก</div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <section class="panel">
+        <div class="panelHeader">
+          <div>
+            <h2>รายการของเดือน</h2>
+            <div class="hint">ค้นหาได้ • แก้ไข/ลบได้ • แสดงยอดจ่ายของเดือนที่เลือก</div>
+          </div>
+          <div class="row">
+            <div class="field" style="min-width:190px;">
+              <label>เดือนที่ดู</label>
+              <input id="monthPicker" type="month" />
+            </div>
+            <div class="field" style="min-width:240px;">
+              <label>ค้นหา (ชื่อ/หมวด)</label>
+              <input id="search" placeholder="เช่น ผ่อน, ค่าอาหาร..." />
+            </div>
+          </div>
+        </div>
+
+        <div class="panelBody">
+          <div class="stats">
+            <div class="card">
+              <div class="k" id="kIncome"></div>
+              <div class="v" id="incomeView">0.00</div>
+            </div>
+            <div class="card">
+              <div class="k" id="kExpense"></div>
+              <div class="v" id="expenseView">0.00</div>
+            </div>
+            <div class="card">
+              <div class="k" id="kBalance"></div>
+              <div class="v" id="balanceView">0.00</div>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:10px;">
+            <div class="field" style="min-width:220px;">
+              <label>รายรับเดือนนี้</label>
+              <input id="incomeInput" type="number" min="0" step="0.01" placeholder="เช่น 25000" />
+            </div>
+            <button id="saveIncome" class="btnSolid"></button>
+            <button id="exportBtn" class="btnPrimary"></button>
+            <button id="importBtn" class="btnPrimary"></button>
+            <button id="resetAll" class="btnDanger"></button>
+          </div>
+
+          <div class="tableWrap" style="margin-top:12px;">
+            <table>
+              <thead>
+                <tr>
+                  <th>รายการ</th>
+                  <th>หมวด</th>
+                  <th>ประเภท</th>
+                  <th>สถานะ/งวด</th>
+                  <th class="right">จ่ายเดือนนี้</th>
+                  <th class="right">จัดการ</th>
+                </tr>
+              </thead>
+              <tbody id="tbody"></tbody>
+            </table>
+          </div>
+          <div class="note" id="countInfo">—</div>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="panelHeader">
+          <div>
+            <h2>เพิ่ม/แก้ไขรายการ</h2>
+            <div class="hint">เลือกประเภทก่อน ระบบจะโชว์ช่องที่จำเป็นเท่านั้น</div>
+          </div>
+        </div>
+
+        <div class="panelBody">
+          <div class="chips" id="typeChips"></div>
+
+          <div class="row" style="margin-top:10px;">
+            <div class="field" style="min-width:220px;">
+              <label>ชื่อรายการ</label>
+              <input id="name" placeholder="เช่น ค่าเน็ต / ผ่อนมือถือ / Netflix" />
+            </div>
+            <div class="field">
+              <label>หมวดหมู่</label>
+              <input id="category" placeholder="เช่น บิล / กิน / ผ่อน" />
+            </div>
+          </div>
+
+          <div class="field" style="min-width:100%; margin-top:10px;">
+            <label>โน้ต (ไม่บังคับ)</label>
+            <input id="note" placeholder="เช่น จ่ายทุกวันที่ 5 / โปรโมชัน..." />
+          </div>
+
+          <!-- ONCE -->
+          <div id="boxOnce" style="margin-top:10px;">
+            <div class="row">
+              <div class="field">
+                <label>เดือนที่จ่าย</label>
+                <input id="onceMonth" type="month" />
+              </div>
+              <div class="field">
+                <label>จำนวนเงิน (บาท)</label>
+                <input id="onceAmount" type="number" min="0" step="0.01" placeholder="เช่น 1200" />
+              </div>
+            </div>
+          </div>
+
+          <!-- RECURRING -->
+          <div id="boxRecurring" style="margin-top:10px; display:none;">
+            <div class="row">
+              <div class="field">
+                <label>จ่ายประจำ “ทุกเดือน” จำนวน (บาท)</label>
+                <input id="recAmount" type="number" min="0" step="0.01" placeholder="เช่น 399" />
+              </div>
+            </div>
+          </div>
+
+          <!-- INSTALLMENT -->
+          <div id="boxInstallment" style="margin-top:10px; display:none;">
+            <div class="row">
+              <div class="field">
+                <label>เริ่มเดือน</label>
+                <input id="startMonth" type="month" />
+              </div>
+              <div class="field">
+                <label>จำนวนงวด (เดือน)</label>
+                <input id="months" type="number" min="1" step="1" value="12" />
+              </div>
+            </div>
+
+            <div class="chips" style="margin-top:8px;" id="modeChips"></div>
+
+            <div class="row" style="margin-top:10px;">
+              <div class="field" id="totalField">
+                <label>ยอดรวมทั้งหมด (บาท)</label>
+                <input id="totalAmount" type="number" min="0" step="0.01" placeholder="เช่น 36000" />
+              </div>
+              <div class="field" id="monthlyField" style="display:none;">
+                <label>ค่างวดต่อเดือน (บาท)</label>
+                <input id="monthlyAmount" type="number" min="0" step="0.01" placeholder="เช่น 1500" />
+              </div>
+            </div>
+
+            <div class="card" style="margin-top:10px;">
+              <div class="k">สรุปอัตโนมัติ</div>
+              <div class="note" id="instSummary">—</div>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top:12px;">
+            <button id="saveTx" class="btnSolid"></button>
+            <button id="cancelEdit" class="btnPrimary" style="display:none;">ยกเลิกแก้ไข</button>
+          </div>
+
+          <div class="note">
+            • ถ้าเป็น “ประจำ” จะนับทุกเดือนอัตโนมัติ<br/>
+            • ถ้าเป็น “ผ่อน” ไปหน้า “หนี้/ผ่อน” เพื่อดูว่าจะหมดอีกกี่เดือน
+          </div>
+
+          <div class="panel" style="margin-top:14px;">
+            <div class="panelHeader">
+              <div>
+                <h2>Restore แบบวาง JSON</h2>
+                <div class="hint">วาง JSON แล้วกด Import</div>
+              </div>
+            </div>
+            <div class="panelBody">
+              <textarea id="jsonBox" placeholder="วาง JSON..."></textarea>
+              <div class="row" style="margin-top:10px;">
+                <button id="doImport" class="btnSolid">Import</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script type="module" src="./transactions.js"></script>
+</body>
+</html>

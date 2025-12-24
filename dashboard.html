@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Dashboard | Expense Pro</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbarInner">
+      <div class="brand"><div class="logo"></div> Expense Pro</div>
+      <nav class="nav">
+        <a href="./dashboard.html" data-nav="dashboard"></a>
+        <a href="./transactions.html" data-nav="transactions"></a>
+        <a href="./debts.html" data-nav="debts"></a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="pageTitle">
+      <div>
+        <h1>Dashboard</h1>
+        <div class="sub">ภาพรวมรายรับ/รายจ่ายรายเดือน + สัดส่วน + Top หมวด</div>
+      </div>
+    </div>
+
+    <section class="panel">
+      <div class="panelHeader">
+        <div>
+          <h2>เลือกเดือน + รายรับ</h2>
+          <div class="hint">รายจ่ายรวม = ครั้งเดียว(เดือนนั้น) + ประจำ + ค่างวดผ่อนที่อยู่ในช่วงงวด</div>
+        </div>
+        <div class="row">
+          <div class="field" style="min-width:190px;">
+            <label>เดือน</label>
+            <input id="monthPicker" type="month" />
+          </div>
+          <div class="field" style="min-width:220px;">
+            <label>รายรับเดือนนี้</label>
+            <input id="incomeInput" type="number" min="0" step="0.01" placeholder="เช่น 25000" />
+          </div>
+
+          <button id="saveIncome" class="btnSolid"></button>
+          <button id="exportBtn" class="btnPrimary"></button>
+
+          <!-- ✅ Backup/Restore -> modal -->
+          <button id="openBackup" class="btnPrimary"></button>
+        </div>
+      </div>
+
+      <div class="panelBody">
+        <div class="stats">
+          <div class="card">
+            <div class="k" id="kIncome"></div>
+            <div class="v" id="incomeView">0.00</div>
+          </div>
+          <div class="card">
+            <div class="k" id="kExpense"></div>
+            <div class="v" id="expenseView">0.00</div>
+          </div>
+          <div class="card">
+            <div class="k" id="kBalance"></div>
+            <div class="v" id="balanceView">0.00</div>
+          </div>
+        </div>
+
+        <div class="grid" style="margin-top:14px;">
+          <section class="panel">
+            <div class="panelHeader">
+              <div>
+                <h2>สัดส่วนรายจ่าย</h2>
+                <div class="hint" id="pieLegend">—</div>
+              </div>
+            </div>
+            <div class="panelBody">
+              <div class="canvasBox"><canvas id="pie" width="900" height="260"></canvas></div>
+            </div>
+          </section>
+
+          <section class="panel">
+            <div class="panelHeader">
+              <div>
+                <h2>Top หมวดหมู่ (เดือนนี้)</h2>
+                <div class="hint" id="barHint">—</div>
+              </div>
+            </div>
+            <div class="panelBody">
+              <!-- ✅ เปลี่ยนเป็น list แทน canvas -->
+              <div id="topList" class="topList"></div>
+            </div>
+          </section>
+        </div>
+
+      </div>
+    </section>
+  </div>
+
+  <!-- ✅ Modal: Backup/Restore -->
+  <div id="backupModal" class="modal hidden" aria-hidden="true">
+    <div class="modalOverlay" data-close="1"></div>
+    <div class="modalCard" role="dialog" aria-modal="true" aria-label="Backup Restore">
+      <div class="modalHeader">
+        <div>
+          <div class="modalTitle">Backup / Restore</div>
+          <div class="modalSub">Export จะดาวน์โหลดไฟล์ JSON • Restore ให้วาง JSON แล้วกด Import</div>
+        </div>
+        <button class="modalClose" data-close="1">✕</button>
+      </div>
+
+      <div class="modalBody">
+        <textarea id="jsonBox" placeholder="วาง JSON ที่นี่เพื่อ Restore..."></textarea>
+
+        <div class="row" style="margin-top:10px;">
+          <button id="doImport" class="btnSolid">Import</button>
+          <button id="copyJson" class="btnPrimary">คัดลอก JSON</button>
+          <button id="importBtn" class="btnPrimary">แค่โฟกัสกล่อง</button>
+        </div>
+
+        <div class="note">ทิป: ถ้าย้ายเครื่อง ให้ Export แล้วเอาไฟล์ไป Import ในเครื่องใหม่</div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./dashboard.js"></script>
+</body>
+</html>

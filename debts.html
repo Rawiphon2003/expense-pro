@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>หนี้/ผ่อน | Expense Pro</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbarInner">
+      <div class="brand"><div class="logo"></div> Expense Pro</div>
+      <nav class="nav">
+        <a href="./dashboard.html" data-nav="dashboard"></a>
+        <a href="./transactions.html" data-nav="transactions"></a>
+        <a href="./debts.html" data-nav="debts"></a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="pageTitle">
+      <div>
+        <h1>หนี้/ผ่อน</h1>
+        <div class="sub">ดูงวดปัจจุบัน • เหลืออีกกี่เดือน • เดือนที่หมด • ยอดคงเหลือโดยประมาณ</div>
+      </div>
+    </div>
+
+    <section class="panel">
+      <div class="panelHeader">
+        <div>
+          <h2>สรุปหนี้</h2>
+          <div class="hint">คำนวณจากรายการประเภท “ผ่อน” เท่านั้น</div>
+        </div>
+        <div class="row">
+          <div class="field" style="min-width:190px;">
+            <label>เดือนที่ใช้คำนวณ</label>
+            <input id="monthPicker" type="month" />
+          </div>
+          <div class="field" style="min-width:240px;">
+            <label>ค้นหา</label>
+            <input id="search" placeholder="ชื่อ/หมวด..." />
+          </div>
+        </div>
+      </div>
+
+      <div class="panelBody">
+        <div class="stats">
+          <div class="card">
+            <div class="k">ยอดผ่อนรวม/เดือน (เดือนนี้)</div>
+            <div class="v" id="sumMonthly">0.00</div>
+          </div>
+          <div class="card">
+            <div class="k">รายการที่ยังไม่จบ</div>
+            <div class="v" id="activeCount">0</div>
+          </div>
+          <div class="card">
+            <div class="k">หนี้ยาวสุดถึงเดือน</div>
+            <div class="v" id="maxEnd">-</div>
+          </div>
+        </div>
+
+        <div class="tableWrap" style="margin-top:12px;">
+          <table>
+            <thead>
+              <tr>
+                <th>รายการ</th>
+                <th>หมวด</th>
+                <th>เริ่ม</th>
+                <th class="right">งวด</th>
+                <th>งวดปัจจุบัน</th>
+                <th class="right">เหลือ (เดือน)</th>
+                <th>หมดเดือน</th>
+                <th class="right">ผ่อน/เดือน</th>
+                <th class="right">ยอดคงเหลือ</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+        <div class="note" id="countInfo">—</div>
+      </div>
+    </section>
+  </div>
+
+  <script type="module" src="./debts.js"></script>
+</body>
+</html>
